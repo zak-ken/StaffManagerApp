@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block body %}
+  <div class="container">
+    <h1> Employee creation form </h1>
+
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+    <form method="post" enctype="multipart/form-data">
+      {%csrf_token%}
+      {{ form.as_p }}
+      <button type="submit">Submit</button>
+      <script>
+        $( function() {
+            $( "#id_date_started" ).datepicker({ dateFormat: 'yy-mm-dd' });
+        });
+      </script>
+    </form>
+  </div>
+{% endblock %}

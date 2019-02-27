@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% csrf_token %}
+{% block head %}
+    <meta charset="UTF-8">
+    <title>employee management</title>
+{% endblock %}
+
+{% block nav %}
+  <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+          <li><a href="#">Employees</a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+          <li><a href="{% url 'emp:creating_employee' %}">Add User</a></li>
+      </ul>
+  </div>
+{% endblock %}
+
+{% block body %}
+  {% load static %}
+  <script type="text/javascript" src="{% static 'management/js/jquery.sortElements.js' %} "></script>
+  <script type="text/javascript" src="{% static 'management/js/employee_table.js' %} "></script>
+
+  <div class="container">
+    {% if staff_members %}
+      <table id="DataTable" class="table table-striped table-bordered">
+        <thead>
+          <tr>
+            <th id="name">Name</th>
+            <th id="surname">Surname</th>
+            <th id="job_title">Job title</th>
+            <th id="start_date">Company Start Date</th>
+            <th id="job_descrip">Job Description</th>
+            <th id="avatar">Avatar</th>
+            <th id="actions">Actions</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          {% for member in staff_members %}
+            <tr id="{{member.pk}}">
+              <td>{{member.employee_firstname}}</td>
+              <td>{{member.employee_surname}}</td>
+              <td>{{member.employee_job_title}}</td>
+              <td>{{member.date_started}}</td>
+              <td>{{member.job_description}}</td>
+              {% if member.employee_image %}
+                <td><img src="{{member.employee_image.url}}" height="150" width="150"></td>
+              {% else %}
+                <td><img src="/static/default_images/default_avatar.jpg" height="150" width="150"></td>
+              {% endif %}
+
+              <td><button type="button" id="delete_{{member.pk}}">Delete User</button><br><a type="button" href="{% url 'emp:edit_employee' member.pk %}">Edit User</a>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    {% else %}
+      <h1>
+        <p>No Staff Data available.</p>
+      </h1>
+    {% endif %}
+  </div>
+{% endblock %}
